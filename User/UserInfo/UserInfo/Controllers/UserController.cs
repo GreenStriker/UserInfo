@@ -129,9 +129,6 @@ namespace UserInfo.Controllers
             try
             {
 
-              
-
-
                 var edituser = new Models.UserInfo();
 
                 edituser = iuser.GetUser(getuser.UserId);
