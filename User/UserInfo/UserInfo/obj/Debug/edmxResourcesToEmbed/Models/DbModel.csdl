@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="userModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="District">
+    <Key>
+      <PropertyRef Name="DistrictId" />
+    </Key>
+    <Property Name="DistrictId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="DivitionId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Divition" Relationship="Self.FK_District_Divition" FromRole="District" ToRole="Divition" />
+    <NavigationProperty Name="UserInfoes" Relationship="Self.FK_UserInfo_District" FromRole="District" ToRole="UserInfo" />
+  </EntityType>
+  <EntityType Name="Divition">
+    <Key>
+      <PropertyRef Name="DivitionId" />
+    </Key>
+    <Property Name="DivitionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Districts" Relationship="Self.FK_District_Divition" FromRole="Divition" ToRole="District" />
+    <NavigationProperty Name="UserInfoes" Relationship="Self.FK_UserInfo_Divition" FromRole="Divition" ToRole="UserInfo" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="UserInfo">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FristName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Mobile" Type="Int32" Nullable="false" />
+    <Property Name="GenderId" Type="Int32" Nullable="false" />
+    <Property Name="DivitionId" Type="Int32" Nullable="false" />
+    <Property Name="DistrictId" Type="Int32" Nullable="false" />
+    <Property Name="PresentAddress" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="LastEducationalQulification" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Occupation" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="DateOFBirth" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="District" Relationship="Self.FK_UserInfo_District" FromRole="UserInfo" ToRole="District" />
+    <NavigationProperty Name="Divition" Relationship="Self.FK_UserInfo_Divition" FromRole="UserInfo" ToRole="Divition" />
+  </EntityType>
+  <Association Name="FK_District_Divition">
+    <End Role="Divition" Type="Self.Divition" Multiplicity="1" />
+    <End Role="District" Type="Self.District" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Divition">
+        <PropertyRef Name="DivitionId" />
+      </Principal>
+      <Dependent Role="District">
+        <PropertyRef Name="DivitionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserInfo_District">
+    <End Role="District" Type="Self.District" Multiplicity="1" />
+    <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="District">
+        <PropertyRef Name="DistrictId" />
+      </Principal>
+      <Dependent Role="UserInfo">
+        <PropertyRef Name="DistrictId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserInfo_Divition">
+    <End Role="Divition" Type="Self.Divition" Multiplicity="1" />
+    <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Divition">
+        <PropertyRef Name="DivitionId" />
+      </Principal>
+      <Dependent Role="UserInfo">
+        <PropertyRef Name="DivitionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="userEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Districts" EntityType="Self.District" />
+    <EntitySet Name="Divitions" EntityType="Self.Divition" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="UserInfoes" EntityType="Self.UserInfo" />
+    <AssociationSet Name="FK_District_Divition" Association="Self.FK_District_Divition">
+      <End Role="Divition" EntitySet="Divitions" />
+      <End Role="District" EntitySet="Districts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserInfo_District" Association="Self.FK_UserInfo_District">
+      <End Role="District" EntitySet="Districts" />
+      <End Role="UserInfo" EntitySet="UserInfoes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserInfo_Divition" Association="Self.FK_UserInfo_Divition">
+      <End Role="Divition" EntitySet="Divitions" />
+      <End Role="UserInfo" EntitySet="UserInfoes" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
