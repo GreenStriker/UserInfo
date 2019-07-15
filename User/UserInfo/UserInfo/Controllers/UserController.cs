@@ -12,31 +12,33 @@ namespace UserInfo.Controllers
     {
         // GET: User
 
-       private IDistrict idis;
+        private IDistrict idis;
         private IDivition idv;
         private IUser iuser;
         public UserController()
-       {
+        {
 
-           this.idis = new DistrictRepo(new Models.userEntities());
+            this.idis = new DistrictRepo(new Models.userEntities());
 
-           this.idv = new DivitionRepo(new Models.userEntities());
+            this.idv = new DivitionRepo(new Models.userEntities());
 
 
-           this.iuser = new UserRepo(new Models.userEntities());
-       }
+            this.iuser = new UserRepo(new Models.userEntities());
+        }
 
-        public ActionResult Dis(int id=0)
+        public ActionResult Dis(int id = 0)
         {
 
             var list = idis.GetKVP(id);
 
-            return Json(list,JsonRequestBehavior.AllowGet);
+            return Json(list, JsonRequestBehavior.AllowGet);
 
         }
 
         public ActionResult Index()
         {
+
+
             var UserList = iuser.getUser().ToList();
 
             return View(UserList);
@@ -69,17 +71,17 @@ namespace UserInfo.Controllers
                 var adduser = new Models.UserInfo();
                 user.Divitions = idv.GetKVP();
                 user.Districts = idis.GetKVP(9);
-                adduser.FristName = user.FristName ;
-                adduser.LastName = user.LastName   ;
-                adduser.UserName = user.UserName  ;
-                adduser.Email = user.Email  ;
-                adduser.Mobile = user.Mobile   ;
-                adduser.GenderId = user.GenderId ;
-                adduser.DivitionId = user.DivitionId  ;
-                adduser.DistrictId = user.DistrictId   ;
-                adduser.LastEducationalQulification = user.LastEducationalQulification ;
-                adduser.Occupation = user.Occupation    ;
-                adduser.PresentAddress = user.PresentAddress ;
+                adduser.FristName = user.FristName;
+                adduser.LastName = user.LastName;
+                adduser.UserName = user.UserName;
+                adduser.Email = user.Email;
+                adduser.Mobile = user.Mobile;
+                adduser.GenderId = user.GenderId;
+                adduser.DivitionId = user.DivitionId;
+                adduser.DistrictId = user.DistrictId;
+                adduser.LastEducationalQulification = user.LastEducationalQulification;
+                adduser.Occupation = user.Occupation;
+                adduser.PresentAddress = user.PresentAddress;
                 adduser.DateOFBirth = user.DateOFBirth;
 
 
@@ -97,38 +99,76 @@ namespace UserInfo.Controllers
         // GET: User/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var getuser = iuser.GetUser(id);
+
+            var edituser = new vmUser();
+
+            edituser.Divitions = idv.GetKVP();
+            edituser.Districts = idis.GetKVP(getuser.DivitionId);
+            edituser.UserId = id;
+            edituser.FristName = getuser.FristName;
+            edituser.LastName = getuser.LastName;
+            edituser.UserName = getuser.UserName;
+            edituser.Email = getuser.Email;
+            edituser.Mobile = getuser.Mobile;
+            edituser.GenderId = getuser.GenderId;
+            edituser.DivitionId = getuser.DivitionId;
+            edituser.DistrictId = getuser.DistrictId;
+            edituser.LastEducationalQulification = getuser.LastEducationalQulification;
+            edituser.Occupation = getuser.Occupation;
+            edituser.PresentAddress = getuser.PresentAddress;
+            edituser.DateOFBirth = getuser.DateOFBirth;
+
+            return View(edituser);
         }
 
         // POST: User/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(vmUser getuser, FormCollection collection)
         {
             try
             {
-                // TODO: Add update logic here
+
+              
+
+
+                var edituser = new Models.UserInfo();
+
+                edituser = iuser.GetUser(getuser.UserId);
+
+                getuser.Divitions = idv.GetKVP();
+                getuser.Districts = idis.GetKVP(0);
+
+                edituser.FristName = getuser.FristName;
+                edituser.LastName = getuser.LastName;
+                edituser.UserName = getuser.UserName;
+                edituser.Email = getuser.Email;
+                edituser.Mobile = getuser.Mobile;
+                edituser.GenderId = getuser.GenderId;
+                edituser.DivitionId = getuser.DivitionId;
+                edituser.DistrictId = getuser.DistrictId;
+                edituser.LastEducationalQulification = getuser.LastEducationalQulification;
+                edituser.Occupation = getuser.Occupation;
+                edituser.PresentAddress = getuser.PresentAddress;
+                edituser.DateOFBirth = getuser.DateOFBirth;
+
+
+                iuser.UpdateUser(edituser);
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch(Exception e)
             {
-                return View();
+                return View(getuser);
             }
         }
 
         // GET: User/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
-        }
-
-        // POST: User/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
             try
             {
-                // TODO: Add delete logic here
+                iuser.DeleteUser(id);
 
                 return RedirectToAction("Index");
             }
@@ -137,5 +177,8 @@ namespace UserInfo.Controllers
                 return View();
             }
         }
+
+        // POST: User/Delete/5
+      
     }
 }

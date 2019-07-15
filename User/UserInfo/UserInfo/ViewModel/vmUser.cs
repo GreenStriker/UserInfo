@@ -7,6 +7,8 @@ namespace UserInfo.ViewModel
 {
     public class vmUser
     {
+
+        //public string SearchText { get; set; }
         public int UserId { get; set; }
         public string FristName { get; set; }
         public string LastName { get; set; }
