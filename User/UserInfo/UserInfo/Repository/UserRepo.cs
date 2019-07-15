@@ -27,17 +27,21 @@ namespace UserInfo.Repository
 
         public void UpdateUser(Models.UserInfo user)
         {
-            throw new NotImplementedException();
+            userEntities.Entry(user).State = System.Data.Entity.EntityState.Modified;
+            userEntities.SaveChanges();
         }
 
         public void DeleteUser(int uId)
         {
-            throw new NotImplementedException();
+            Models.UserInfo delu = userEntities.UserInfoes.Find(uId);
+            userEntities.UserInfoes.Remove(delu);
+            userEntities.SaveChanges();
+
         }
 
         public Models.UserInfo GetUser(int uId)
         {
-            throw new NotImplementedException();
+            return userEntities.UserInfoes.Find(uId);
         }
     }
 }

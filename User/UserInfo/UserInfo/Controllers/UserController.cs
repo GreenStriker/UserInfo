@@ -56,7 +56,7 @@ namespace UserInfo.Controllers
             var user = new vmUser();
             // var item = idv.GetKVP();
             user.Divitions = idv.GetKVP();
-            user.Districts = idis.GetKVP(9);
+            user.Districts = idis.GetKVP(0);
             return View(user);
         }
 
@@ -67,14 +67,16 @@ namespace UserInfo.Controllers
             try
             {
                 var adduser = new Models.UserInfo();
+                user.Divitions = idv.GetKVP();
+                user.Districts = idis.GetKVP(9);
                 adduser.FristName = user.FristName ;
                 adduser.LastName = user.LastName   ;
                 adduser.UserName = user.UserName  ;
                 adduser.Email = user.Email  ;
                 adduser.Mobile = user.Mobile   ;
                 adduser.GenderId = user.GenderId ;
-                adduser.DivitionId = 9  ;
-                adduser.DistrictId = 10   ;
+                adduser.DivitionId = user.DivitionId  ;
+                adduser.DistrictId = user.DistrictId   ;
                 adduser.LastEducationalQulification = user.LastEducationalQulification ;
                 adduser.Occupation = user.Occupation    ;
                 adduser.PresentAddress = user.PresentAddress ;

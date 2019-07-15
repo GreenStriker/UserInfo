@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<UserInfo.Models.UserInfo>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "User";
 }
 
 <h2>Index</h2>
@@ -12,16 +12,16 @@
 
 
 
-<table id="example" class="display" style="width:100%">
+<table class="table table-striped">
 
     <tr>
-        <th class="th-sm">
+        <th>
             @Html.DisplayNameFor(model => model.FristName)
         </th>
-        <th class="th-sm">
+        <th>
             @Html.DisplayNameFor(model => model.LastName)
         </th>
-        <th class="th-sm">
+        <th>
             @Html.DisplayNameFor(model => model.UserName)
         </th>
         <th>
@@ -107,10 +107,6 @@
 <script>
 
 
-    $(document).ready(function () {
-        $('#example').DataTable({
-            order: [[3, 'desc'], [0, 'asc']]
-        });
-    });
+
     </script>
 }

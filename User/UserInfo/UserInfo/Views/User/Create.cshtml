@@ -149,15 +149,17 @@
 
                 //  alert(jQuery.dataType);
                 if (result) {
-                    console.log(result[0].key);
+                    console.log(result);
 
                    
 
-                    $('#DistrictId').empty();
+                   $('#DistrictId').empty();
 
-                    //$.each(result, function (k, v) {
-                    //    $('#DistrictId').append('<option value="' + v.result + '">' + v.result + '</option>');
-                    //});
+                    $.each(result, function (k, v) {
+                      //  console.log(k.Key);
+                       // console.log(v.Key);
+                        $('#DistrictId').append('<option value="' + v.Key + '">' + v.Value + '</option>');
+                    });
   
 
 
